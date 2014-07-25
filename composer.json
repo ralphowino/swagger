@@ -1,0 +1,21 @@
+{
+    "name": "ralphowino/swagger",
+    "description": "",
+    "authors": [
+        {
+            "name": "Raphael Owino",
+            "email": "raphael@ralphowino.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "symfony/yaml": "2.5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Ralphowino\\Swagger": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
