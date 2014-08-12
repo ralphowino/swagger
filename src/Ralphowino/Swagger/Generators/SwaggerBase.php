@@ -54,7 +54,6 @@ class SwaggerBase
                 array_push($this->content[$node], $element);
             }
         }
-
     }
 
     protected function addString($node, $value)

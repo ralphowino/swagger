@@ -6,6 +6,7 @@ class SwaggerApi extends SwaggerBase
 {
     function __construct($name)
     {
+        $this->name = $name;
         $this->filename = storage_path().'/swagger/apis/'.$name;
         $this->default= array(
             'resourcePath' => '/'.$name,
@@ -15,5 +16,10 @@ class SwaggerApi extends SwaggerBase
             'operations' => [],
         );
         return parent::__construct();
+    }
+
+    function getName()
+    {
+        return $this->name;
     }
 } 

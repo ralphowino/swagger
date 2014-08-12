@@ -9,7 +9,7 @@ class SwaggerFacade extends Facade
 
     protected static function getFacadeAccessor()
     {
-        return 'swagger';
+        return 'ralphowino.swagger';
     }
 
 } 

@@ -3,10 +3,12 @@
 
 use Config;
 use Ralphowino\Swagger\Commands\Traits\ModelGenerator;
+use Ralphowino\Swagger\Commands\Traits\OperationGenerator;
+use Ralphowino\Swagger\Commands\Traits\ResourceGenerator;
 
 class SwaggerGenerate extends BaseCommand {
 
-    use ModelGenerator;
+    use ModelGenerator, OperationGenerator, ResourceGenerator;
 
 	/**
 	 * The console command name.
@@ -42,7 +44,7 @@ class SwaggerGenerate extends BaseCommand {
 	{
         $type = $this->argument('type');
         $type = ucfirst($type);
-        while(!in_array($type, ['Entity', 'Operation', 'Model']))
+        while(!in_array($type, ['Resource', 'Operation', 'Model']))
         {
             $type = $this->ask('Type of object to generate [Resource|Operation|Model] ?', 'resource');
             $type = ucfirst($type);

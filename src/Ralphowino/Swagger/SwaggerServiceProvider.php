@@ -1,10 +1,8 @@
 <?php namespace Ralphowino\Swagger;
 
 use Illuminate\Support\ServiceProvider;
-<<<<<<< HEAD
 use Ralphowino\Swagger\Commands\SwaggerInitialize;
-=======
->>>>>>> 3ce400a786303ad2458bcc4c64fdda09cec523d0
+
 
 class SwaggerServiceProvider extends ServiceProvider {
 
@@ -13,7 +11,7 @@ class SwaggerServiceProvider extends ServiceProvider {
 	 *
 	 * @var bool
 	 */
-	protected $defer = true;
+	protected $defer = false;
 
 	/**
 	 * Register the service provider.
@@ -22,13 +20,11 @@ class SwaggerServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('swagger',function(){
-            return new \Ralphowino\Swagger\Swagger();
+		$this->app->bind('ralphowino.swagger',function()
+		{
+            return new Swagger();
         });
-<<<<<<< HEAD
         $this->registerCommands();
-=======
->>>>>>> 3ce400a786303ad2458bcc4c64fdda09cec523d0
 	}
 
 	/**
@@ -41,7 +37,6 @@ class SwaggerServiceProvider extends ServiceProvider {
 		return array();
 	}
 
-<<<<<<< HEAD
     private function registerCommands()
     {
         $commands = array(
@@ -58,7 +53,4 @@ class SwaggerServiceProvider extends ServiceProvider {
         }
 
     }
-
-=======
->>>>>>> 3ce400a786303ad2458bcc4c64fdda09cec523d0
 }
