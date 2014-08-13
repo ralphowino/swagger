@@ -4,9 +4,9 @@ trait ResourceGenerator
 {
     function generateResource($name)
     {
-        $resource = $this->swg->api(strtolower($name));
+        $resource = $this->swg->resource(strtolower($name));
         $this->addResourceProperties($resource);
-        $this->swg->api('index')->apis(array(array('path'=>strtolower($name),'description'=>'Resource '.$name)));
+        $this->swg->api('index')->apis(array(array('path'=>strtolower($name),'description'=>ucfirst($name))));
     }
 
     function addResourceProperties($resource)

@@ -13,7 +13,6 @@ class SwaggerApi extends SwaggerBase
             'apiVersion' => '1.0.0',
             'swaggerVersion'=> '1.2',
             'apis'=> [],
-            'operations' => [],
         );
         return parent::__construct();
     }
