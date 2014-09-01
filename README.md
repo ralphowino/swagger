@@ -1,6 +1,6 @@
 #Warning
 
-##This project is still in active development and the might be buggy. Use at your own discretion. The documentation might include functions that are still in development and so might not work as documentated. You can watch the project for an update once its stable
+##This project is still in active development and might be buggy. Use at your own discretion. The documentation includes functions that are still in development and so might not work as documentated. You can watch the project for an update once its stable
 
 #Installation
 ##Via Composer
