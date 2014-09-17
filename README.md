@@ -244,3 +244,9 @@ To populate the operation enter the following answers:
     operation: createtodo
     operation: updatetodo
     operation: deletetodo
+    
+#Upcoming features
+- Specs within a json doc
+- Templates
+- Generate from code
+- Import Postman doc
