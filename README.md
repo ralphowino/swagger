@@ -186,7 +186,7 @@ To populate the operation enter the following answers:
     parameter: page
     parameter.description: page to display
     parameter.location: query
-    parameter.type: string
+    parameter.type: integer
     parameter.required: n
     parameter.multiple: n
 
@@ -196,7 +196,7 @@ To populate the operation enter the following answers:
     parameter: per_page
     parameter.description: items to display per page
     parameter.location: query
-    parameter.type: string
+    parameter.type: integer
     parameter.required: n
     parameter.multiple: n
 
@@ -231,7 +231,7 @@ To populate the operation enter the following answers:
 
     verb: DELETE
     path: todos/{id}
-    model: Todo
+    model: 
     summary: Delete a todo item based on ID
     notes:
 
