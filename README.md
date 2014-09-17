@@ -78,11 +78,16 @@ We can create a quick documentation for a to-do list api with simple CRUD functi
 
     php artisan swagger:generate operation createTodo
     
+*General details*
+
     verb: POST
     path: todos
     model: Todo
     summary: Create a new todo item
     notes: Create a new todo item
+    
+*Parameter: id
+
     parameter: body
     parameter.description: create a new todo item
     parameter.location: body
@@ -94,11 +99,139 @@ We can create a quick documentation for a to-do list api with simple CRUD functi
     
 **2.Get Todo**
 
+    php artisan swagger:generate operation getTodo
+
+To populate the operation enter the following answers:
+
+*General details*
+
+    verb: GET
+    path: todos/{id}
+    model: Todo
+    summary: Get todo item using its id
+    notes: Get a todo item using its id. Define fields to retrieve or none if not changed
+
+*Parameter: id*
+
+    parameter: id
+    parameter.description: id of todo item to retrieve
+    parameter.location: path
+    parameter.type: integer
+    parameter.required: y
+    parameter.multiple: n
+    
+*Parameter: if-match-none*
+
+    parameter: if-match-none
+    parameter.description: return if etag doesn't match
+    parameter.location: header
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+    
+    
+*Parameter: fields*
+
+    parameter: fields
+    parameter.description: fields to return (limited to fields available)
+    parameter.location: query
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
 
 **3.Get Todos**
+
+    php artisan swagger:generate operation getTodos
+
+To populate the operation enter the following answers:
+
+*General details*
+
+    verb: GET
+    path: todo
+    model: array
+    type: Todo
+    summary: Get todo items
+    notes: Get a todo items paginated and filtered based on parameters
+
+*Parameter: if-match-none*
+
+    parameter: if-match-none
+    parameter.description: return if etag doesn't match
+    parameter.location: header
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+    
+*Parameter: id*
+
+    parameter: id
+    parameter.description: filter by ids. Comma separated list allowed
+    parameter.location: query
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+    
+    
+*Parameter: fields*
+
+    parameter: fields
+    parameter.description: fields to return (limited to fields available)
+    parameter.location: query
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+    
+    
+*Parameter: page*
+
+    parameter: page
+    parameter.description: page to display
+    parameter.location: query
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+
+
+*Parameter: per_page*
+
+    parameter: per_page
+    parameter.description: items to display per page
+    parameter.location: query
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
 
 
 **4.Update Todos**
 
+    php artisan swagger:generate operation updateTodo
+    
+*General details*
+
+    verb: PUT
+    path: todos/{id}
+    model: Todo
+    summary: Update a todo item based on ID
+    notes:
+    
+*Parameter: body*
+
+    parameter: body
+    parameter.description: updated fields
+    parameter.location: body
+    parameter.type: iTodo
+    parameter.required: y
+    parameter.multiple: n
+
 
 **5.Delete Todo**
+
+    php artisan swagger:generate operation deleteTodo
+    
+*General details*
+    verb: DELETE
+    path: todos/{id}
+    model: Todo
+    summary: Delete a todo item based on ID
+    notes:
