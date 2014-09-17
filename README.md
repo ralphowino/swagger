@@ -84,15 +84,15 @@ We can create a quick documentation for a to-do list api with simple CRUD functi
     path: todos
     model: Todo
     summary: Create a new todo item
-    notes: Create a new todo item
+    notes:
     
-*Parameter: id
+*Parameter: body*
 
     parameter: body
     parameter.description: create a new todo item
     parameter.location: body
     parameter.type: iTodo
-    parameter.required: n
+    parameter.required: y
     parameter.multiple: n
     
     
@@ -101,10 +101,8 @@ We can create a quick documentation for a to-do list api with simple CRUD functi
 
     php artisan swagger:generate operation getTodo
 
-To populate the operation enter the following answers:
-
 *General details*
-
+    
     verb: GET
     path: todos/{id}
     model: Todo
@@ -230,8 +228,19 @@ To populate the operation enter the following answers:
     php artisan swagger:generate operation deleteTodo
     
 *General details*
+
     verb: DELETE
     path: todos/{id}
     model: Todo
     summary: Delete a todo item based on ID
     notes:
+
+###Create Resource
+
+    php artisan swagger:generate resource todos
+    
+    operation: gettodos
+    operation: gettodo
+    operation: createtodo
+    operation: updatetodo
+    operation: deletetodo
