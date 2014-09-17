@@ -11,5 +11,4 @@ class SwaggerFacade extends Facade
     {
         return 'ralphowino.swagger';
     }
-
-} 
+}

@@ -1,8 +1,5 @@
 <?php
-
 namespace Ralphowino\Swagger\Generators;
-
-use Ralphowino\Swagger\Swagger;
 
 class SwaggerApi extends SwaggerBase
 {
@@ -23,4 +20,4 @@ class SwaggerApi extends SwaggerBase
     {
         return $this->name;
     }
-} 
+}

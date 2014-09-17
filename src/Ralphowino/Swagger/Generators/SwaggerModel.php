@@ -1,5 +1,4 @@
 <?php
-
 namespace Ralphowino\Swagger\Generators;
 
 
@@ -19,5 +18,4 @@ class SwaggerModel extends SwaggerBase
         $this->addContent('properties',$property);
         return $this;
     }
-
 }

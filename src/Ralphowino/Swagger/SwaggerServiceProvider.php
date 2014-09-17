@@ -16,7 +16,6 @@ class SwaggerServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->package('ralphowino/swagger','swagger');
-
         include __DIR__ . '/../../routes.php';
     }
 

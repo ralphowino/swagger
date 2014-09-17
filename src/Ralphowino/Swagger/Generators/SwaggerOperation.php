@@ -17,4 +17,4 @@ class SwaggerOperation extends SwaggerBase
     {
         return str_replace('.json','',basename($this->filename));
     }
-} 
+}

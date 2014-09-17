@@ -17,4 +17,4 @@ trait ResourceGenerator
         $this->info('Added ' . $operation . ' to '.$resource->getName());
         $this->addResourceProperties($resource);
     }
-} 
+}
