@@ -10,7 +10,9 @@ class SwaggerResource extends SwaggerBase
     {
         $this->filename = storage_path().'/swagger/resources/'.Str::snake($nickname);
         $this->default= array(
-            'basePath' => url(\Config::get('swagger::api.route'))
+            'basePath' => url(\Config::get('swagger::api.route')),
+            'operations' => [],
+            'models' => [],
         );
         return parent::__construct();
     }

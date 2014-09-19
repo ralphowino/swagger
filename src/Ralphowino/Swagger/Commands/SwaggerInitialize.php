@@ -1,6 +1,8 @@
 <?php namespace Ralphowino\Swagger\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Config;
 use Ralphowino\Swagger\Swagger;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -18,8 +20,22 @@ class SwaggerInitialize extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Command description.';
+	protected $description = 'Publish files and initialize your swagger instance';
 
+
+
+    protected $commands = array(
+        '4' => array(
+            'publish-views' => 'views:publish',
+            'publish-config' => 'config:publish',
+            'publish-assets' => 'assets:publish',
+        ),
+        '5' => array(
+            'publish-views' => 'publish:views',
+            'publish-config' => 'publish:config',
+            'publish-assets' => 'publish:assets',
+        )
+    );
 	/**
 	 * Create a new command instance.
 	 *
@@ -28,6 +44,7 @@ class SwaggerInitialize extends Command {
 	public function __construct()
 	{
 		parent::__construct();
+        $this->commands = $this->commands[substr(Application::VERSION,0,1)];
 	}
 
 	/**
@@ -37,13 +54,15 @@ class SwaggerInitialize extends Command {
 	 */
 	public function fire()
 	{
-        $swg = new \Ralphowino\Swagger\Swagger();
+        //publish resources
+        $this->publishViews();
+        $this->publishConfig();
+        $this->publishAssets();
+        $this->info('Creating base doc');
+        $swg = new Swagger();
         $swg->api('index')
-            ->apiVersion(\Config::get('swagger::api.version'))
-            ->swaggerVersion(Swagger::config('version'))
-            ->basePath(url(\Config::get('swagger::docs.route')))
-            ->info(\Config::get('swagger::docs.info'));
-        $this->info('Swagger Initialized');
+            ->basePath(url(Config::get('swagger::docs.route')));
+        $this->info('Swagger Initialized. You can access it at /'.\Config::get('swagger::docs.route'));
 	}
 
 	/**
@@ -67,5 +86,32 @@ class SwaggerInitialize extends Command {
 	{
 		return array();
 	}
+
+    protected function publishViews()
+    {
+        $publish = $this->ask('Do you want to publish swagger views');
+        if (strpos(strtolower($publish), 'y') === 0)
+        {
+            $this->call($this->commands['publish-views'],array('package'=>'ralphowino/swagger'));
+        }
+    }
+
+    protected function publishConfig() 
+    {
+        $publish = $this->ask('Do you want to publish swagger config');
+        if (strpos(strtolower($publish), 'y') === 0)
+        {
+            $this->call($this->commands['publish-config'], array('package' => 'ralphowino/swagger'));
+        }
+    }
+
+    protected function publishAssets() 
+    {
+        $publish = $this->ask('Do you want to publish swagger assets');
+        if (strpos(strtolower($publish), 'y') === 0)
+        {
+            $this->call($this->commands['publish-assets'], array('package' => 'ralphowino/swagger'));
+        }
+    }
 
 }

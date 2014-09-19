@@ -2,13 +2,15 @@
 
 
 use Config;
+use Ralphowino\Swagger\Commands\Traits\ApiGenerator;
 use Ralphowino\Swagger\Commands\Traits\ModelGenerator;
 use Ralphowino\Swagger\Commands\Traits\OperationGenerator;
 use Ralphowino\Swagger\Commands\Traits\ResourceGenerator;
+use Ralphowino\Swagger\Swagger;
 
 class SwaggerGenerate extends BaseCommand {
 
-    use ModelGenerator, OperationGenerator, ResourceGenerator;
+    use ModelGenerator, OperationGenerator, ResourceGenerator, ApiGenerator;
 
 	/**
 	 * The console command name.
@@ -32,7 +34,7 @@ class SwaggerGenerate extends BaseCommand {
 	public function __construct()
 	{
 		parent::__construct();
-        $this->swg = new \Ralphowino\Swagger\Swagger();
+        $this->swg = new Swagger();
 	}
 
 	/**
@@ -44,9 +46,9 @@ class SwaggerGenerate extends BaseCommand {
 	{
         $type = $this->argument('type');
         $type = ucfirst($type);
-        while(!in_array($type, ['Resource', 'Operation', 'Model']))
+        while(!in_array($type, ['Resource', 'Operation', 'Model', 'Api']))
         {
-            $type = $this->ask('Type of object to generate [Resource|Operation|Model] ?', 'resource');
+            $type = $this->ask('Type of object to generate [Resource|Operation|Model|Api] ?', 'resource');
             $type = ucfirst($type);
         };
 
@@ -55,7 +57,7 @@ class SwaggerGenerate extends BaseCommand {
         {
             $name = $this->ask('Name of '.$type.'?');
         };
-        $name = \Str::slug($name,'_');
+        $name = str_replace(' ','_', strtolower($name));
         $generator = 'generate'.$type;
         $this->$generator($name);
 
