@@ -1,7 +1,3 @@
-#Warning
-
-##This project is still in active development and might be buggy. Use at your own discretion. The documentation includes functions that are still in development and so might not work as documentated. You can watch the project for an update once its stable
-
 #Installation
 ##Via Composer
 
@@ -13,24 +9,6 @@ Edit `composer.json` and to require
 
 Edit `config/app.php` and  `"Ralphowino/Swagger/SwaggerServiceProvider"` in providers array
 
-##Update config
-
-In command line, run 
-
-    php artisan config:publish ralphowino/swagger. 
-    
-This will allow you to run edit the configuration files based on your preference
-
-##Publish templates
-In command line, publish templates by running
-    
-    php artisan swagger:publish templates
-
-##Publish assets
-In command line, run 
-
-    php artisan assets:publish ralphowino/swagger
-
 #Getting Started
 
 ##Initialize your docs
@@ -38,61 +16,238 @@ To create a new documentation for your api, run:
     
     php artisan swagger:init
 
-##Generate Docs from template
-###Full Restful resource
-You can document a restful resource simply by running:
+##Generate Docs from CLI
+
+There are 4 doc types: api, resource, model, operation
+
+###Api
+
+This doc type allows you to create a standard swagger resource doc type.
+
+To generate one, use command:
+
+    php artisan swagger:generate api apiname
     
-    php artisan swagger:resource  pets --template=restful --fields="id:integer, name:string, description:string, photo:file, gender:enum,[male|female|unknown], vaccinated_at:datetime,nullable" --required="id, name" --response-fields="id, name, description, photo:string, vaccinated: bool, vaccinated_at, timestamps, softdeletes"
+###Resource
 
-This will create a full restful stack with the methods: index, show, store, update, delete.
+This doc type is a summarised version of the standard swagger resource and includes 2 variables: models and operations.
 
-The fields parameter will be used for both input and output unless otherwise specified by the response-fields parameter
+To generate one, use command:
 
-
-####Limit methods
-You can also limit the methods to generate by passing an array of template methods
+    php artisan swagger:generate resource resourcename
     
-    php artisan swagger:resource pets --templates="restful.index, restful.show"
+*You will be requested to specify a list of operations to include*
 
-####Adding operations not in template
-You can also add operations that are not specified in the template simply by running:
+###Operation
 
+This doc type represents a single action/route in your api. To generate one, use command:
+
+    php artisan swagger:generate operation operationName
     
-    php artisan swagger:operation restorePet
+*You will be requested to specify different details about the action such as Verb, Route, etc*
 
-You will fill requested to specify a number of properties for the operation to complete its creation. You can also specify the various properties directly with the call as options. For instance:
+###Model
 
+This doc type represents a model/custom datatype used in your api. To generate one use command:
+
+    php artisan swagger:generate model Modelname
     
-    php artisan swagger:operation restorePet --method=PUT --route="pets/{id}/restore" --parameters="id:[type:integer,location:path,required:true]"
+*You will be asked properties of the model and the required ones*
 
-Then add this to the pet resource by running:
 
+##Quick Tutorial
+
+We can create a quick documentation for a to-do list api with simple CRUD function for todo items.
+
+###Initialize
     
-    php artisan swagger:resource pets --operations=restorePet
-
-###Publishing your api docs
-Once you have completed building your api docs, you can publish them for quicker rendering by swagger. Simply run:
-
+    php artisan swagger:init
     
-    php artisan swagger:publish apis
+*Make sure you have updated your api domain name in config/app.php*
 
-## Node by Node generation
-You can also generate a documentation by simply specifying one node at a time
+###Create Models
 
-###Types of documents
-- **Api** - This is the final document that is rendered to swagger. It is a well structured swagger json document and is not parsed before rendering. To access api documents use:
-       php artisan swagger:api
-- **Resource** - This is a json document which can be parsed to generate a swagger api document. It contains all the details of a resource such as operations and models. To access resource documents use:
-        php artisan swagger:resource
-- **Model** - This is a representation of the resource entities. It contains the entity name and its properties. To access model documents use:
-        php artisan swagger:model
-- **Operation** - This is an action performed by the api. It represents the various end points of the api. To access operation documents use:
-        php artisan swagger:operations
+    php artisan swagger:generate model Todo --properties="id:integer, title:string, notes:text, completed:boolean, created_at:datetime, updated_at:datetime, completed_at:datetime, deleted_at:datetime" --required="id,title"
 
-####New doc
 
-####Update doc
-####Delete doc
-	
-## Backup doc
+    php artisan swagger:generate model Item --properties="title:string, notes:text, completed:boolean" --required="title"
+    
+###Create Operations
 
+**1. Create Todo**
+
+    php artisan swagger:generate operation createTodo
+    
+*General details*
+
+    verb: POST
+    path: todos
+    model: Todo
+    summary: Create a new todo item
+    notes:
+    
+*Parameter: body*
+
+    parameter: body
+    parameter.description: create a new todo item
+    parameter.location: body
+    parameter.type: iTodo
+    parameter.required: y
+    parameter.multiple: n
+    
+    
+    
+**2.Get Todo**
+
+    php artisan swagger:generate operation getTodo
+
+*General details*
+    
+    verb: GET
+    path: todos/{id}
+    model: Todo
+    summary: Get todo item using its id
+    notes: Get a todo item using its id. Define fields to retrieve or none if not changed
+
+*Parameter: id*
+
+    parameter: id
+    parameter.description: id of todo item to retrieve
+    parameter.location: path
+    parameter.type: integer
+    parameter.required: y
+    parameter.multiple: n
+    
+*Parameter: if-match-none*
+
+    parameter: if-match-none
+    parameter.description: return if etag doesn't match
+    parameter.location: header
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+    
+    
+*Parameter: fields*
+
+    parameter: fields
+    parameter.description: fields to return (limited to fields available)
+    parameter.location: query
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+
+**3.Get Todos**
+
+    php artisan swagger:generate operation getTodos
+
+To populate the operation enter the following answers:
+
+*General details*
+
+    verb: GET
+    path: todo
+    model: array
+    type: Todo
+    summary: Get todo items
+    notes: Get a todo items paginated and filtered based on parameters
+
+*Parameter: if-match-none*
+
+    parameter: if-match-none
+    parameter.description: return if etag doesn't match
+    parameter.location: header
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+    
+*Parameter: id*
+
+    parameter: id
+    parameter.description: filter by ids. Comma separated list allowed
+    parameter.location: query
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+    
+    
+*Parameter: fields*
+
+    parameter: fields
+    parameter.description: fields to return (limited to fields available)
+    parameter.location: query
+    parameter.type: string
+    parameter.required: n
+    parameter.multiple: n
+    
+    
+*Parameter: page*
+
+    parameter: page
+    parameter.description: page to display
+    parameter.location: query
+    parameter.type: integer
+    parameter.required: n
+    parameter.multiple: n
+
+
+*Parameter: per_page*
+
+    parameter: per_page
+    parameter.description: items to display per page
+    parameter.location: query
+    parameter.type: integer
+    parameter.required: n
+    parameter.multiple: n
+
+
+**4.Update Todos**
+
+    php artisan swagger:generate operation updateTodo
+    
+*General details*
+
+    verb: PUT
+    path: todos/{id}
+    model: Todo
+    summary: Update a todo item based on ID
+    notes:
+    
+*Parameter: body*
+
+    parameter: body
+    parameter.description: updated fields
+    parameter.location: body
+    parameter.type: iTodo
+    parameter.required: y
+    parameter.multiple: n
+
+
+**5.Delete Todo**
+
+    php artisan swagger:generate operation deleteTodo
+    
+*General details*
+
+    verb: DELETE
+    path: todos/{id}
+    model: 
+    summary: Delete a todo item based on ID
+    notes:
+
+###Create Resource
+
+    php artisan swagger:generate resource todos
+    
+    operation: gettodos
+    operation: gettodo
+    operation: createtodo
+    operation: updatetodo
+    operation: deletetodo
+    
+#Upcoming features
+- Specs within a json doc
+- Templates
+- Generate from code
+- Import Postman doc
+- Unit tests
