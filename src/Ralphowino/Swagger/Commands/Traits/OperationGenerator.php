@@ -47,7 +47,12 @@ trait OperationGenerator
         $param['description'] = strtolower($this->ask('Describe the parameter:'));
         $param['paramType'] = strtolower($this->ask('Enter location of parameter:', 'query'));
         //To do : check if type is valid
-        $param['type'] = strtolower($this->ask('Enter type of the parameter value:', 'string'));
+        $param['type'] = $this->ask('Enter type of the parameter value:', 'string');
+        if(in_array(array_keys($this->config('data_types'))))
+        {
+            $param['type'] = strtolower($param['type']);
+        }
+
         $param['required'] = in_array(strtolower($this->ask('Is the parameter required [y/n]:', 'n')),array('y','yes'))?true:false;
         $param['allowMultiple'] = in_array(strtolower($this->ask('Allow multiple versions [y/n]:', 'n')),array('y','yes'))?true:false;
         $operation->parameters(array($param));

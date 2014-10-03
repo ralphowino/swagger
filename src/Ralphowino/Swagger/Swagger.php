@@ -62,7 +62,14 @@ class Swagger
                     $path = $operation['path'];
                     unset($operation['path']);
                     $api['apis'][] = ['path' => $path, 'operations' => [$operation]];
-                    $api['attachmodels'][] = $operation['type'];
+                    if(isset($operation['type']))
+                        $api['attachmodels'][] = $operation['type'];
+                    foreach($operation['parameters'] as $param)
+                    {
+                        if(!in_array($param['type'],['integer','string','number','boolean']) && isset($param['type']))
+                            $api['attachmodels'][] = $param['type'];
+
+                    }
                 }
 
             }

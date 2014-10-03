@@ -57,7 +57,7 @@ This doc type represents a model/custom datatype used in your api. To generate o
 
 ##Quick Tutorial
 
-We can create a quick documentation for a to-do list api with simple CRUD function for todo items.
+We can create a quick documentation for a to-do list api with simple Crud function for todo items.
 
 ###Initialize
     
