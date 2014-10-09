@@ -104,9 +104,9 @@ class Swagger
     {
         if(!isset($this->config))
         {
-            $this->config = array_dot(require(__DIR__.'/Resources/config.php'));
+            $this->config = require(__DIR__.'/Resources/config.php');
         }
-        return $this->config[$path];
+        return array_get($this->config, $path);
     }
 
 }

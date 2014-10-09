@@ -48,7 +48,7 @@ trait OperationGenerator
         $param['paramType'] = strtolower($this->ask('Enter location of parameter:', 'query'));
         //To do : check if type is valid
         $param['type'] = $this->ask('Enter type of the parameter value:', 'string');
-        if(in_array(array_keys($this->config('data_types'))))
+        if(in_array($param['type'],array_keys($this->swg->config('data-types'))))
         {
             $param['type'] = strtolower($param['type']);
         }
